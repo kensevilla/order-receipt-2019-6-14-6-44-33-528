@@ -10,6 +10,7 @@ public class OrderReceipt {
     private Order order;
     private double totalSalesTax = 0d;
     private double totalAmount = 0d;
+    private double DISCOUNT = .10;
 
     public OrderReceipt(Order order) {
         this.order = order;
@@ -23,16 +24,16 @@ public class OrderReceipt {
 
         for (LineItem lineItem : order.getLineItems()) {
             output.append(appendLineItemDetails(lineItem));
-            double salesTax = lineItem.totalAmount() * .10;
-            doComputation(lineItem.totalAmount(), salesTax);
+            double salesTax = lineItem.totalAmount() * DISCOUNT;
+            computeTotalSalesTaxAndAmount(lineItem.totalAmount(), salesTax);
         }
-        
+
         output.append("Sales Tax").append('\t').append(totalSalesTax);
         output.append("Total Amount").append('\t').append(totalAmount);
         return output.toString();
     }
 
-    private void doComputation(double itemAmount, double salesTax) {
+    private void computeTotalSalesTaxAndAmount(double itemAmount, double salesTax) {
         totalSalesTax += salesTax;
         totalAmount+= itemAmount  + salesTax;
     }
